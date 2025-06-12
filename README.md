@@ -2,6 +2,10 @@
 
 Testcontainers is a PHP package that makes it simple to create and clean up container-based dependencies for automated integration/smoke tests. The package is inspired by the [Testcontainers](https://www.testcontainers.org/) project for Java.
 
+## Legacy PHP support
+
+The official `testcontainers/testcontainers` library requires PHP 8.1 or newer. If you need to support older PHP versions, including those that are EOL, check out the community-maintained [k-kinzal/testcontainers-php](https://github.com/k-kinzal/testcontainers-php) project. The discussion about supporting legacy versions lives in [issue #38](https://github.com/testcontainers/testcontainers-php/issues/38).
+
 ## Installation
 
 Add this to your project with composer
