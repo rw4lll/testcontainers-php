@@ -139,10 +139,7 @@ class WaitForHttp extends BaseWaitStrategy
         }
 
         curl_exec($ch);
-        $responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
-
-        return $responseCode;
+        return curl_getinfo($ch, CURLINFO_HTTP_CODE);
     }
 
     private function resolvePort(StartedTestContainer $container): void
