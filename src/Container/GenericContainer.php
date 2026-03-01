@@ -64,6 +64,9 @@ class GenericContainer implements TestContainer
 
     protected ?string $networkName = null;
 
+    /** @var array<string> */
+    protected array $aliases = [];
+
     protected ?string $user = null;
 
     protected ?string $workingDir = null;
@@ -263,6 +266,16 @@ class GenericContainer implements TestContainer
         return $this;
     }
 
+    /**
+     * @param array<string> $aliases
+     */
+    public function withAliases(array $aliases): static
+    {
+        $this->aliases = $aliases;
+
+        return $this;
+    }
+
     public function withPortGenerator(PortGenerator $portGenerator): static
     {
         $this->portGenerator = $portGenerator;
@@ -412,10 +425,14 @@ class GenericContainer implements TestContainer
 
         if ($this->networkName !== null) {
             $networkingConfig = new NetworkingConfig();
+            $aliases = $this->aliases ?? [];
+            if ($this->name) {
+                $aliases[] = $this->name;
+            }
             $endpointsConfig = [
                 $this->networkName => new EndpointSettings([
                     'networkID' => $this->networkName,
-                    'aliases' => $this->name ? [$this->name] : [],
+                    'aliases' => $aliases,
                 ]),
             ];
             $networkingConfig->setEndpointsConfig($endpointsConfig);
