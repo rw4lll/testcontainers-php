@@ -47,6 +47,8 @@ class GenericContainer implements TestContainer
     /** @var list<string> */
     protected array $command = [];
 
+    protected bool $autoRemove = false;
+
     protected ?string $entryPoint = null;
 
     protected ?HealthConfig $healthConfig = null;
@@ -116,6 +118,13 @@ class GenericContainer implements TestContainer
     public function withCommand(array $command): static
     {
         $this->command = $command;
+
+        return $this;
+    }
+
+    public function withAutoRemove(bool $autoRemove): static
+    {
+        $this->autoRemove = $autoRemove;
 
         return $this;
     }
@@ -454,6 +463,8 @@ class GenericContainer implements TestContainer
         }
 
         $hostConfig = new HostConfig();
+
+        $hostConfig->setAutoRemove($this->autoRemove);
 
         if ($this->exposedPorts !== []) {
             $portBindings = $this->createPortBindings();
