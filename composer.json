@@ -44,6 +44,11 @@
         }
     },
     "scripts": {
+        "check:all": [
+            "@cs",
+            "@phpstan",
+            "@integration"
+        ],
         "integration": "paratest tests/ --bootstrap vendor/autoload.php -f",
         "cs": "php-cs-fixer fix --dry-run",
         "cs:fix": "php-cs-fixer fix",
