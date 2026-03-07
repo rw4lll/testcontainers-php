@@ -64,8 +64,11 @@ class StartedGenericContainer implements StartedTestContainer
 
         $this->lastExecId = $exec->getId();
 
+        $startConfig = new ExecIdStartPostBody();
+        $startConfig->setDetach(false);
+
         $contents = $this->dockerClient
-            ->execStart($this->lastExecId, null, Client::FETCH_RESPONSE)
+            ->execStart($this->lastExecId, $startConfig, Client::FETCH_RESPONSE)
             ?->getBody()
             ->getContents() ?? '';
 
