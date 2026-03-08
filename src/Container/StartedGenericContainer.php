@@ -8,6 +8,7 @@ use Docker\API\Client;
 use Docker\API\Model\ContainersIdExecPostBody;
 use Docker\API\Model\ContainersIdJsonGetResponse200;
 use Docker\API\Model\EndpointSettings;
+use Docker\API\Model\ExecIdStartPostBody;
 use Docker\API\Model\IdResponse;
 use Docker\API\Model\PortBinding;
 use Docker\API\Runtime\Client\Client as DockerRuntimeClient;
