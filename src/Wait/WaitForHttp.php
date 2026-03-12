@@ -30,8 +30,10 @@ class WaitForHttp extends BaseWaitStrategy
      */
     protected int $readTimeout = 1000;
 
+    protected ?int $hostPort = null;
+
     public function __construct(
-        protected ?int $port = null,
+        protected ?int $containerPort = null,
         int $timeout = 10000,
         int $pollInterval = 500
     ) {
@@ -101,10 +103,10 @@ class WaitForHttp extends BaseWaitStrategy
             }
 
             try {
-                $this->resolvePort($container);
+                $this->resolveHostPort($container);
                 $containerAddress = $container->getHost();
 
-                $url = sprintf('%s://%s:%d%s', $this->protocol, $containerAddress, $this->port, $this->path);
+                $url = sprintf('%s://%s:%d%s', $this->protocol, $containerAddress, $this->hostPort, $this->path);
                 $responseCode = $this->makeHttpRequest($url);
 
                 if ($responseCode === $this->expectedStatusCode) {
@@ -142,10 +144,14 @@ class WaitForHttp extends BaseWaitStrategy
         return curl_getinfo($ch, CURLINFO_HTTP_CODE);
     }
 
-    private function resolvePort(StartedTestContainer $container): void
+    private function resolveHostPort(StartedTestContainer $container): void
     {
-        $this->port = $this->port === null
+        if ($this->hostPort !== null) {
+            return; // Port already resolved
+        }
+
+        $this->hostPort = $this->containerPort === null
             ? $container->getFirstMappedPort()
-            : $container->getMappedPort($this->port);
+            : $container->getMappedPort($this->containerPort);
     }
 }
